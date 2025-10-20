@@ -19,10 +19,11 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
 ) {
   const form = useForm({
     resolver: zodResolver(CompetitionValidator),
-    values: competition, 
+    // values: competition, // Temporarily commented out.
     defaultValues: {
       title: "", 
-      // fee: "" // Type error, because I need fee to blank for the form, but "" is not a valid type for Competition.fee.
+      fee: "", // Type error
+      prize: "" // Type error
     }
   });
 
@@ -58,9 +59,22 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
           name="fee"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Entry Fee</FormLabel>
+              <FormLabel>Fee</FormLabel>
               <FormControl>
                 <Input type="number" step="0.01" placeholder="Optional" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="prize"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel></FormLabel>
+              <FormControl>
+                <Input placeholder="Optional" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

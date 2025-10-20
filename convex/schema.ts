@@ -5,5 +5,6 @@ export default defineSchema({
   competitions: defineTable({
     title: v.string(),
     fee: v.optional(v.number()),
+    prize: v.optional(v.number()),
   }),
 });
