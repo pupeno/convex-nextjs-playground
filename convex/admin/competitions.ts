@@ -14,11 +14,10 @@ export const create = mutation({
     fee: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
-    const competitionId = await ctx.db.insert("competitions", {
+    return await ctx.db.insert("competitions", {
       title: args.title,
       fee: args.fee,
     });
-    return competitionId;
   },
 });
 
