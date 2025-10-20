@@ -52,7 +52,7 @@ export const update = mutation({
   handler: async (ctx, args) => {
     const { id, ...updates } = args;
     const validated = CompetitionValidator.parse(updates);
-    await ctx.db.patch(id, validated);
+    await ctx.db.replace(id, validated);
     return id;
   },
 });
