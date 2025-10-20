@@ -10,11 +10,7 @@
 
 import type * as myFunctions from "../myFunctions.js";
 
-import type {
-  ApiFromModules,
-  FilterApi,
-  FunctionReference,
-} from "convex/server";
+import type { ApiFromModules, FilterApi, FunctionReference } from "convex/server";
 
 /**
  * A utility for referencing Convex functions in your app's API.

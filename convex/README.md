@@ -74,6 +74,7 @@ Using this mutation function in a React component looks like:
 
 ```ts
 const mutation = useMutation(api.functions.myMutationFunction);
+
 function handleButtonPress() {
   // fire and forget, the most common way to use mutations
   mutation({ first: "Hello!", second: "me" });
