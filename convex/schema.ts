@@ -9,4 +9,8 @@ export default defineSchema({
   numbers: defineTable({
     value: v.number(),
   }),
+  competitions: defineTable({
+    title: v.string(),
+    fee: v.optional(v.number()),
+  }),
 });
