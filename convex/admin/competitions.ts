@@ -50,9 +50,11 @@ export const update = mutation({
   },
   returns: v.id("competitions"),
   handler: async (ctx, args) => {
+    console.log(args);
     const { id, ...updates } = args;
     const validated = CompetitionValidator.parse(updates);
-    await ctx.db.replace(id, validated);
+    console.log(validated);
+    await ctx.db.patch(id, {title: validated.title, fee: validated.fee, prize: null});
     return id;
   },
 });

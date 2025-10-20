@@ -19,21 +19,37 @@ type Props = {
 };
 
 export function CompetitionForm({ competition, onSubmitAction, onCancelAction, onDeleteAction }: Props) {
-  const titleValidator = z.string().trim().min(1, "Title is required");
-  const optionalMoneyNumber = z.number().positive().finite().optional();
-  const form = useForm<Competition, any>({
+  type FormValues = { title: string; fee: string; prize: string };
+
+  const NumberFromString = z.preprocess(
+    (v) => (v === "" || v === undefined || v === null ? undefined : Number(v)),
+    z.number().positive().finite().optional(),
+  );
+
+  const FormSchema = z.object({
+    title: z.string().trim().min(1, "Title is required"),
+    fee: NumberFromString,
+    prize: NumberFromString,
+  });
+
+  const form = useForm<FormValues, any>({
     defaultValues: {
       title: competition?.title ?? "",
-      fee: competition?.fee,
-      prize: competition?.prize,
+      fee: competition?.fee !== undefined ? String(competition.fee) : "",
+      prize: competition?.prize !== undefined ? String(competition.prize) : "",
     },
     validatorAdapter: zodValidator() as any,
     validators: {
-      onBlur: CompetitionValidator as any,
-      onSubmit: CompetitionValidator as any,
+      onBlur: FormSchema as any,
+      onSubmit: FormSchema as any,
     },
     onSubmit: async ({ value }) => {
-      await onSubmitAction(value);
+      const payload: Competition = {
+        title: value.title,
+        fee: value.fee === "" ? undefined : Number(value.fee),
+        prize: value.prize === "" ? undefined : Number(value.prize),
+      };
+      await onSubmitAction(payload);
     },
   });
 
@@ -50,7 +66,6 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
     >
       <form.Field
         name="title"
-        validators={{ onChange: titleValidator as any, onBlur: titleValidator as any }}
         children={(field) => (
           <div className="grid gap-2">
             <Label htmlFor="title">Title</Label>
@@ -71,26 +86,17 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
 
       <form.Field
         name="fee"
-        validators={{ onChange: optionalMoneyNumber as any, onBlur: optionalMoneyNumber as any }}
         children={(field) => (
           <div className="grid gap-2">
             <Label htmlFor="fee">Fee</Label>
             <Input
               id="fee"
-              type="number"
-              step="0.01"
+              type="text"
+              inputMode="decimal"
               placeholder="Optional"
-              value={field.state.value ?? ""}
+              value={field.state.value}
               onBlur={field.handleBlur}
-              onChange={(e) => {
-                const raw = e.target.value;
-                if (raw === "") {
-                  field.handleChange(undefined);
-                  return;
-                }
-                const parsed = Number(raw);
-                field.handleChange(Number.isNaN(parsed) ? undefined : parsed);
-              }}
+              onChange={(e) => field.handleChange(e.target.value)}
               aria-invalid={field.state.meta.errors.length > 0}
             />
             {field.state.meta.errors[0] ? (
@@ -102,24 +108,17 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
 
       <form.Field
         name="prize"
-        validators={{ onChange: optionalMoneyNumber as any, onBlur: optionalMoneyNumber as any }}
         children={(field) => (
           <div className="grid gap-2">
             <Label htmlFor="prize">Prize</Label>
             <Input
               id="prize"
+              type="text"
+              inputMode="decimal"
               placeholder="Optional"
-              value={field.state.value ?? ""}
+              value={field.state.value}
               onBlur={field.handleBlur}
-              onChange={(e) => {
-                const raw = e.target.value;
-                if (raw === "") {
-                  field.handleChange(undefined);
-                  return;
-                }
-                const parsed = Number(raw);
-                field.handleChange(Number.isNaN(parsed) ? undefined : parsed);
-              }}
+              onChange={(e) => field.handleChange(e.target.value)}
               aria-invalid={field.state.meta.errors.length > 0}
             />
             {field.state.meta.errors[0] ? (

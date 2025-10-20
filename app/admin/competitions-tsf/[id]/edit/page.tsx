@@ -35,7 +35,10 @@ export default function AdminCompetitionsTSFEditPage() {
 
   async function onSubmit(values: Competition) {
     try {
-      await update({ id, ...values });
+      console.log(values);
+      values.prize = undefined;
+      console.log(values);
+      await update({ id,...values });
       toast.success("Competition updated", { description: `"${values.title}" was updated.` });
       router.push("/admin/competitions-tsf");
     } catch (err) {
