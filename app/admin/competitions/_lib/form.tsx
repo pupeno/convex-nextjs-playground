@@ -20,7 +20,7 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
     values: competition, 
     defaultValues: {
       title: "", 
-      fee: "" // Type error, because I need fee to blank for the form, but "" is not a valid type for Competition.fee.
+      // fee: "" // Type error, because I need fee to blank for the form, but "" is not a valid type for Competition.fee.
     }
   });
 
