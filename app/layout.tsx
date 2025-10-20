@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import ConvexClientProvider from "@/components/ConvexClientProvider";
+import ConvexClientProvider from "@/lib/ConvexClientProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
