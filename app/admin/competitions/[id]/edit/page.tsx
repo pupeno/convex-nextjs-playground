@@ -7,7 +7,7 @@ import { CompetitionForm } from "../../_lib/form";
 import { toast } from "sonner";
 import type { Id } from "@/convex/_generated/dataModel";
 import { useHeader } from "@/app/admin/_lib/header";
-import { Competition } from "@/lib/validation/competitions";
+import { Competition, toForm } from "@/lib/validation/competitions";
 
 export default function AdminCompetitionsEditPage() {
   const router = useRouter();
@@ -48,7 +48,7 @@ export default function AdminCompetitionsEditPage() {
 
   return (
     <CompetitionForm
-      competition={competition}
+      competition={toForm(competition)}
       onSubmitAction={onSubmit}
       onCancelAction={() => router.push("/admin/competitions")}
       onDeleteAction={onDelete}

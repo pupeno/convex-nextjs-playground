@@ -7,10 +7,10 @@ import { Button } from "@/lib/ui/button";
 import { IconDeviceFloppy, IconTrash, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import { ConfirmDialog } from "@/lib/ui/admin/confirm-dialog";
-import { Competition } from "@/lib/validation/competitions";
+import { Competition, CompetitionForForm, fromForm } from "@/lib/validation/competitions";
 
 export function CompetitionForm({ competition, onSubmitAction, onCancelAction, onDeleteAction }:
-  {competition?: Competition,
+  {competition?: CompetitionForForm,
    onSubmitAction: (competition: Competition) => Promise<void>;
    onCancelAction: () => void;
    onDeleteAction?: () => Promise<void>;
@@ -20,12 +20,12 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
     values: competition, 
     defaultValues: {
       title: "", 
-      // fee: "" // Type error, because I need fee to blank for the form, but "" is not a valid type for Competition.fee.
+      fee: ""
     }
   });
 
-  const handleSubmit = form.handleSubmit(async (competition) => {
-    await onSubmitAction(competition);
+  const handleSubmit = form.handleSubmit(async (competition: CompetitionForForm) => {
+    await onSubmitAction(fromForm(competition));
   });
 
   const [confirmOpen, setConfirmOpen] = useState(false);
