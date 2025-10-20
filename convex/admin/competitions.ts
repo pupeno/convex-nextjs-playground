@@ -21,7 +21,8 @@ export const create = mutation({
   args: competitionArgs,
   returns: v.id("competitions"),
   handler: async (ctx, args) => {
-    return await ctx.db.insert("competitions", args);
+    const validated = CompetitionValidator.parse(args);
+    return await ctx.db.insert("competitions", validated);
   },
 });
 
@@ -50,7 +51,8 @@ export const update = mutation({
   returns: v.id("competitions"),
   handler: async (ctx, args) => {
     const { id, ...updates } = args;
-    await ctx.db.patch(id, updates);
+    const validated = CompetitionValidator.parse(updates);
+    await ctx.db.patch(id, validated);
     return id;
   },
 });
