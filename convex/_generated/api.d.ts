@@ -8,9 +8,13 @@
  * @module
  */
 
-import type * as myFunctions from "../myFunctions.js";
+import type * as admin_competition from "../admin/competition.js";
 
-import type { ApiFromModules, FilterApi, FunctionReference } from "convex/server";
+import type {
+  ApiFromModules,
+  FilterApi,
+  FunctionReference,
+} from "convex/server";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -21,7 +25,7 @@ import type { ApiFromModules, FilterApi, FunctionReference } from "convex/server
  * ```
  */
 declare const fullApi: ApiFromModules<{
-  myFunctions: typeof myFunctions;
+  "admin/competition": typeof admin_competition;
 }>;
 declare const fullApiWithMounts: typeof fullApi;
 
