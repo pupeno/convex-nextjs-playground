@@ -7,7 +7,8 @@ import { Button } from "@/lib/ui/button";
 import { IconDeviceFloppy, IconTrash, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import { ConfirmDialog } from "@/lib/ui/admin/confirm-dialog";
-import { Competition } from "@/lib/validation/competitions";
+import { Competition, CompetitionValidator } from "@/lib/validation/competitions";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function CompetitionForm({ competition, onSubmitAction, onCancelAction, onDeleteAction }:
   {competition?: Competition,
@@ -17,6 +18,7 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
   }
 ) {
   const form = useForm({
+    resolver: zodResolver(CompetitionValidator),
     values: competition, 
     defaultValues: {
       title: "", 
