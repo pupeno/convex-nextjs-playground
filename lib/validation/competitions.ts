@@ -6,3 +6,20 @@ export const CompetitionValidator = z.object({
   });
 
 export type Competition = z.infer<typeof CompetitionValidator>;
+
+export type CompetitionForForm = {
+  title: string,
+  fee: string
+}
+
+export function toForm(competition: Competition): CompetitionForForm {
+  return {...competition,
+    fee: String(competition.fee)
+  }
+}
+
+export function fromForm(competition: CompetitionForForm): Competition {
+  return {...competition,
+    fee: parseFloat(competition.fee) ?? undefined // Write proper logic to yield `undefined`
+  }
+}
