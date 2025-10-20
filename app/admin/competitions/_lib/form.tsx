@@ -7,9 +7,22 @@ import { Button } from "@/lib/ui/button";
 import { IconDeviceFloppy, IconTrash, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import { ConfirmDialog } from "@/lib/ui/admin/confirm-dialog";
+import { Competition } from "@/lib/validation/competitions";
 
-export function CompetitionForm({ competition, onSubmitAction, onCancelAction, onDeleteAction }) {
-  const form = useForm({ values: competition, defaultValues: {title: "", fee: ""}});
+export function CompetitionForm({ competition, onSubmitAction, onCancelAction, onDeleteAction }:
+  {competition?: Competition,
+   onSubmitAction: (competition: Competition) => Promise<void>;
+   onCancelAction: () => void;
+   onDeleteAction?: () => Promise<void>;
+  }
+) {
+  const form = useForm({
+    values: competition, 
+    defaultValues: {
+      title: "", 
+      fee: "" // Type error, because I need fee to blank for the form, but "" is not a valid type for Competition.fee.
+    }
+  });
 
   const handleSubmit = form.handleSubmit(async (competition) => {
     await onSubmitAction(competition);
@@ -87,7 +100,7 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
           open={confirmOpen}
           onOpenChange={setConfirmOpen}
           title="Confirm deletion"
-          description={`Are you sure you want to delete "${competition.title ?? ""}"?`}
+          description={`Are you sure you want to delete "${competition?.title ?? ""}"?`}
           onConfirm={async () => {
             await onDeleteAction();
           }}

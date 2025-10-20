@@ -6,20 +6,18 @@ import { useRouter } from "next/navigation";
 import { CompetitionForm } from "../_lib/form";
 import { toast } from "sonner";
 import { useHeader } from "@/app/admin/_lib/header";
+import { Competition } from "@/lib/validation/competitions";
 
 export default function AdminCompetitionsNewPage() {
   const router = useRouter();
   const create = useMutation(api.admin.competitions.create);
   useHeader({ title: "Add New Competition" });
 
-  async function onSubmit(competition) {
+  async function onSubmit(competition: Competition) {
     const result = await create(competition);
-    toast.success("New competition created", {
-      description: `"${competition.title}" was created successfully.`,
-    });
+    toast.success("New competition created", {description: `"${competition.title}" was created successfully.`});
     router.push("/admin/competitions");
-
-    return result;
+    return;
   }
 
   return <CompetitionForm onCancelAction={() => router.push("/admin/competitions")} onSubmitAction={onSubmit} />;

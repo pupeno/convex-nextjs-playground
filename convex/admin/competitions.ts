@@ -1,13 +1,16 @@
 import { v } from "convex/values";
 import { mutation, query } from "../_generated/server";
+import { zodToConvex } from "convex-helpers/server/zod";
+import { CompetitionValidator } from "../../lib/validation/competitions";
+
+const competitionArgs = zodToConvex(CompetitionValidator);
 
 export const list = query({
   args: {},
   returns: v.array(v.object({
     _id: v.id("competitions"),
     _creationTime: v.number(),
-    title: v.string(),
-    fee: v.optional(v.number()),
+    ...competitionArgs.fields
   })),
   handler: async (ctx) => {
     return await ctx.db.query("competitions").collect();
@@ -15,10 +18,7 @@ export const list = query({
 });
 
 export const create = mutation({
-  args: {
-    title: v.string(),
-    fee: v.optional(v.number()),
-  },
+  args: competitionArgs,
   returns: v.id("competitions"),
   handler: async (ctx, args) => {
     return await ctx.db.insert("competitions", {
@@ -36,8 +36,7 @@ export const get = query({
     v.object({
       _id: v.id("competitions"),
       _creationTime: v.number(),
-      title: v.string(),
-      fee: v.optional(v.number()),
+      ...competitionArgs.fields
     }),
     v.null()
   ),
@@ -49,8 +48,7 @@ export const get = query({
 export const update = mutation({
   args: {
     id: v.id("competitions"),
-    title: v.optional(v.string()),
-    fee: v.optional(v.number()),
+    ...competitionArgs.fields
   },
   returns: v.id("competitions"),
   handler: async (ctx, args) => {
@@ -61,9 +59,7 @@ export const update = mutation({
 });
 
 export const remove = mutation({
-  args: {
-    id: v.id("competitions"),
-  },
+  args: {id: v.id("competitions")},
   returns: v.null(),
   handler: async (ctx, args) => {
     await ctx.db.delete(args.id);
