@@ -71,6 +71,11 @@ export function AdminSidebar({
               icon={IconTrophy}
             />
             <SidebarMenuItemIconLink
+              title="Competitions (TSF)"
+              url="/admin/competitions-tsf"
+              icon={IconTrophy}
+            />
+            <SidebarMenuItemIconLink
               title="Currencies"
               url="/admin/currencies"
               icon={IconCurrencyDollar}
