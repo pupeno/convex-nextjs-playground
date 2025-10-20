@@ -51,6 +51,7 @@ export default function AdminCompetitionsTSFPage() {
           <TableRow>
             <TableHead>Title</TableHead>
             <TableHead>Fee</TableHead>
+            <TableHead>Prize</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
@@ -59,6 +60,7 @@ export default function AdminCompetitionsTSFPage() {
             <TableRow key={competition._id} className="cursor-pointer" onClick={() => goToEdit(competition._id)}>
               <TableCell>{competition.title}</TableCell>
               <TableCell>{competition.fee}</TableCell>
+              <TableCell>{competition.prize}</TableCell>
               <TableCell className="flex justify-end">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
