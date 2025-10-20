@@ -6,6 +6,14 @@
 			"script": "dev",
 			"problemMatcher": [],
 			"label": "npm run dev",
+			"detail": "Run development server"
+		},
+		{
+			"type": "npm",
+			"script": "tsc",
+			"problemMatcher": [],
+			"label": "npm run tsc",
+			"detail": "Typecheck"
 		}
 	]
 }
