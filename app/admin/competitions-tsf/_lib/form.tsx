@@ -108,8 +108,6 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
             <Label htmlFor="prize">Prize</Label>
             <Input
               id="prize"
-              type="number"
-              step="0.01"
               placeholder="Optional"
               value={field.state.value ?? ""}
               onBlur={field.handleBlur}
