@@ -21,10 +21,7 @@ export const create = mutation({
   args: competitionArgs,
   returns: v.id("competitions"),
   handler: async (ctx, args) => {
-    return await ctx.db.insert("competitions", {
-      title: args.title,
-      fee: args.fee,
-    });
+    return await ctx.db.insert("competitions", args);
   },
 });
 
