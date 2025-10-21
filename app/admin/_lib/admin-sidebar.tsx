@@ -56,34 +56,9 @@ export function AdminSidebar({
         <SidebarGroup>
           <SidebarMenu>
             <SidebarMenuItemIconLink
-              title="Genres"
-              url="/admin/genres"
-              icon={IconTags}
-            />
-            <SidebarMenuItemIconLink
-              title="Organizations"
-              url="/admin/organizations"
-              icon={IconBuilding}
-            />
-            <SidebarMenuItemIconLink
               title="Competitions"
               url="/admin/competitions"
               icon={IconTrophy}
-            />
-            <SidebarMenuItemIconLink
-              title="Currencies"
-              url="/admin/currencies"
-              icon={IconCurrencyDollar}
-            />
-            <SidebarMenuItemIconLink
-              title="Types"
-              url="/admin/types"
-              icon={IconCategory2}
-            />
-            <SidebarMenuItemIconLink
-              title="Users"
-              url="/admin/users"
-              icon={IconUsers}
             />
           </SidebarMenu>
         </SidebarGroup>
