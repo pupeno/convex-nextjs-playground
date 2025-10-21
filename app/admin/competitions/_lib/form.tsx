@@ -22,8 +22,8 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
     // values: competition, // Temporarily commented out.
     defaultValues: {
       title: "", 
-      fee: "", // Type error
-      prize: "" // Type error
+      number1: "", // Type error
+      number2: "" // Type error
     }
   });
 
@@ -48,7 +48,7 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input placeholder="e.g., Summer Short Story Prize" {...field} />
+                <Input placeholder="Title" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -56,10 +56,10 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
         />
         <FormField
           control={form.control}
-          name="fee"
+          name="number1"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Fee</FormLabel>
+              <FormLabel>Number 1</FormLabel>
               <FormControl>
                 <Input type="number" step="0.01" placeholder="Optional" {...field} />
               </FormControl>
@@ -69,10 +69,10 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
         />
         <FormField
           control={form.control}
-          name="prize"
+          name="number2"
           render={({ field }) => (
             <FormItem>
-              <FormLabel></FormLabel>
+              <FormLabel>Number 2</FormLabel>
               <FormControl>
                 <Input placeholder="Optional" {...field} />
               </FormControl>

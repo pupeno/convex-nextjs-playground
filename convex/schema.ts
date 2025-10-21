@@ -4,7 +4,7 @@ import { v } from "convex/values";
 export default defineSchema({
   competitions: defineTable({
     title: v.string(),
-    fee: v.optional(v.number()),
-    prize: v.optional(v.number()),
+    number1: v.optional(v.number()),
+    number2: v.optional(v.number()),
   }),
 });

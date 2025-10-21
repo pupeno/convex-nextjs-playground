@@ -50,7 +50,8 @@ export default function AdminCompetitionsPage() {
         <TableHeader>
           <TableRow>
             <TableHead>Title</TableHead>
-            <TableHead>Fee</TableHead>
+            <TableHead>Number 1</TableHead>
+            <TableHead>Number 2</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
@@ -58,7 +59,8 @@ export default function AdminCompetitionsPage() {
           {competitions.map((competition) => (
             <TableRow key={competition._id} className="cursor-pointer" onClick={() => goToEdit(competition._id)}>
               <TableCell>{competition.title}</TableCell>
-              <TableCell>{competition.fee}</TableCell>
+              <TableCell>{competition.number1}</TableCell>
+              <TableCell>{competition.number2}</TableCell>
               <TableCell className="flex justify-end">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
