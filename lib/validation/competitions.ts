@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v3";
 
 export const CompetitionValidator = z.object({
       title: z.string().trim().min(1, "Title is required"),
