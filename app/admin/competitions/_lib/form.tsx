@@ -7,27 +7,32 @@ import { Button } from "@/lib/ui/button";
 import { IconDeviceFloppy, IconTrash, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import { ConfirmDialog } from "@/lib/ui/admin/confirm-dialog";
-import { Competition, CompetitionValidator } from "@/lib/validation/competitions";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { CompetitionValidator } from "./validation";
+
+type CompetitionInput = z.input<typeof CompetitionValidator>;
+type CompetitionOutput = z.output<typeof CompetitionValidator>;
 
 export function CompetitionForm({ competition, onSubmitAction, onCancelAction, onDeleteAction }:
-  {competition?: Competition,
-   onSubmitAction: (competition: Competition) => Promise<void>;
+  {competition?: CompetitionInput,
+   onSubmitAction: (competition: CompetitionOutput) => Promise<void>;
    onCancelAction: () => void;
    onDeleteAction?: () => Promise<void>;
   }
 ) {
   const form = useForm({
     resolver: zodResolver(CompetitionValidator),
-    // values: competition, // Temporarily commented out.
+    values: competition,
     defaultValues: {
-      title: "", 
-      number1: "", // Type error
-      number2: "" // Type error
+      title: "",
+      number1: "",
+      number2: ""
     }
   });
 
-  const handleSubmit = form.handleSubmit(async (competition) => {
+  const handleSubmit = form.handleSubmit(async (values) => {
+    const competition: CompetitionOutput = CompetitionValidator.parse(values);
     await onSubmitAction(competition);
   });
 
@@ -74,7 +79,7 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
             <FormItem>
               <FormLabel>Number 2</FormLabel>
               <FormControl>
-                <Input placeholder="Optional" {...field} />
+                <Input type="number" step="0.01" placeholder="Optional" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
