@@ -34,7 +34,7 @@ export default function AdminCompetitionsEditPage() {
   }
 
   async function onSubmit(competition: Competition) {
-    const result = await update({id, ...competition});
+    const result = await update({ id, ...competition });
     toast.success("Competition updated", { description: `"${competition.title}" was updated.` });
     router.push("/admin/competitions");
     return;
@@ -48,7 +48,11 @@ export default function AdminCompetitionsEditPage() {
 
   return (
     <CompetitionForm
-      competition={competition}
+      competition={{ // TODO Fix converting from Convex to Form values
+        title: competition.title,
+        number1: competition.number1 ? competition.number1.toString() : "",
+        number2: competition.number2 ? competition.number2.toString() : ""
+      }} 
       onSubmitAction={onSubmit}
       onCancelAction={() => router.push("/admin/competitions")}
       onDeleteAction={onDelete}
