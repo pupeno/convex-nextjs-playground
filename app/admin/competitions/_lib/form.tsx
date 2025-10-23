@@ -47,7 +47,7 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
           void handleSubmit();
         }}>
         <FormField
-          control={form.control as any} // TODO: fix this type error
+          control={form.control}
           name="title"
           render={({ field }) => (
             <FormItem>
@@ -60,7 +60,7 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
           )}
         />
         <FormField
-          control={form.control as any} // TODO: fix this type error
+          control={form.control}
           name="number1"
           render={({ field }) => (
             <FormItem>
@@ -73,7 +73,7 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
           )}
         />
         <FormField
-          control={form.control as any} // TODO: fix this type error
+          control={form.control}
           name="number2"
           render={({ field }) => (
             <FormItem>
