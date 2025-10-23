@@ -15,15 +15,16 @@ type CompetitionInput = z.input<typeof CompetitionValidator>;
 type CompetitionOutput = z.output<typeof CompetitionValidator>;
 
 export function CompetitionForm({ competition, onSubmitAction, onCancelAction, onDeleteAction }:
-  {competition?: CompetitionInput,
-   onSubmitAction: (competition: CompetitionOutput) => Promise<void>;
-   onCancelAction: () => void;
-   onDeleteAction?: () => Promise<void>;
+  {
+    competition?: CompetitionInput,
+    onSubmitAction: (competition: CompetitionOutput) => Promise<void>;
+    onCancelAction: () => void;
+    onDeleteAction?: () => Promise<void>;
   }
 ) {
   const form = useForm<CompetitionInput, any, CompetitionOutput>({
     resolver: zodResolver(CompetitionValidator),
-    values: competition,
+    ...(competition ? { values: competition } : {}),
     defaultValues: {
       title: "",
       number1: "",
