@@ -22,7 +22,7 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
     onDeleteAction?: () => Promise<void>;
   }
 ) {
-  const form = useForm<CompetitionInput, any, CompetitionOutput>({
+  const form = useForm({
     resolver: zodResolver(CompetitionValidator),
     ...(competition ? { values: competition } : {}),
     defaultValues: {
@@ -33,8 +33,7 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
   });
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    const competition: CompetitionOutput = CompetitionValidator.parse(values);
-    await onSubmitAction(competition);
+    await onSubmitAction(values);
   });
 
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -43,10 +42,7 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
     <Form {...form}>
       <form
         className="flex h-full flex-col gap-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-          void handleSubmit();
-        }}>
+        onSubmit={handleSubmit}>
         <FormField
           control={form.control}
           name="title"
