@@ -76,7 +76,7 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
             <FormItem>
               <FormLabel>Number 2</FormLabel>
               <FormControl>
-                <Input type="number" step="0.01" placeholder="Optional" {...field} />
+                <Input placeholder="Optional" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
