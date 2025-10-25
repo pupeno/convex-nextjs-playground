@@ -3,7 +3,7 @@ import { isBlank, isValidNumber, isValidOptionalNumber, type ValidationResult } 
 export type SetValues = {
   name: string;
   mandatoryNumber: string | number | null | undefined;
-  number2: string | number | null | undefined;
+  optionalNumber1: string | number | null | undefined;
 };
 
 export function validateSet<T extends SetValues>(set: T): ValidationResult<T> {
@@ -21,9 +21,9 @@ export function validateSet<T extends SetValues>(set: T): ValidationResult<T> {
     errors.mandatoryNumber = "Must be a number.";
   }
 
-  // number2
-  if (!isValidOptionalNumber(set.number2)) {
-    errors.number2 = "Must be a number or empty.";
+  // optionalNumber1
+  if (!isValidOptionalNumber(set.optionalNumber1)) {
+    errors.optionalNumber1 = "Must be a number or empty.";
   }
 
   if (Object.keys(errors).length > 0) {

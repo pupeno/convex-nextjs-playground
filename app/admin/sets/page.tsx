@@ -51,7 +51,7 @@ export default function AdminSetsPage() {
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Mandatory Number</TableHead>
-            <TableHead>Number 2</TableHead>
+            <TableHead>Optional Number 1</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
@@ -60,7 +60,7 @@ export default function AdminSetsPage() {
             <TableRow key={set._id} className="cursor-pointer" onClick={() => goToEdit(set._id)}>
               <TableCell>{set.name}</TableCell>
               <TableCell>{set.mandatoryNumber}</TableCell>
-              <TableCell>{set.number2}</TableCell>
+              <TableCell>{set.optionalNumber1}</TableCell>
               <TableCell className="flex justify-end">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

@@ -6,7 +6,7 @@ import { toDatabase } from "../schema";
 const SetsInputV = {
   name: v.string(),
   mandatoryNumber: v.number(),
-  number2: v.union(v.number(), v.null()),
+  optionalNumber1: v.union(v.number(), v.null()),
 };
 
 const SetsOutputV = v.object({
@@ -14,7 +14,7 @@ const SetsOutputV = v.object({
   _creationTime: v.number(),
   name: v.string(),
   mandatoryNumber: v.number(),
-  number2: v.optional(v.number()),
+  optionalNumber1: v.optional(v.number()),
 });
 
 export const list = query({
