@@ -6,8 +6,7 @@ import { toDatabase } from "../schema";
 const SetsInputV = {
   name: v.string(),
   mandatoryNumber: v.number(),
-  optionalNumber1: v.union(v.number(), v.null()),
-  optionalNumber2: v.union(v.number(), v.null()),
+  optionalNumber: v.union(v.number(), v.null()),
   optionalPositiveNumber: v.union(v.number(), v.null()),
 };
 
@@ -16,8 +15,7 @@ const SetsOutputV = v.object({
   _creationTime: v.number(),
   name: v.string(),
   mandatoryNumber: v.number(),
-  optionalNumber1: v.optional(v.number()),
-  optionalNumber2: v.optional(v.number()),
+  optionalNumber: v.optional(v.number()),
   optionalPositiveNumber: v.optional(v.number()),
 });
 

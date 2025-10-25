@@ -3,8 +3,7 @@ import { isBlank, isValidNumber, isValidOptionalNumber, isValidOptionalNumberWit
 export type SetValues = {
   name: string;
   mandatoryNumber: string | number | null | undefined;
-  optionalNumber1: string | number | null | undefined;
-  optionalNumber2: string | number | null | undefined;
+  optionalNumber: string | number | null | undefined;
   optionalPositiveNumber: string | number | null | undefined;
 };
 
@@ -23,14 +22,9 @@ export function validateSet<T extends SetValues>(set: T): ValidationResult<T> {
     errors.mandatoryNumber = "Must be a number.";
   }
 
-  // optionalNumber1
-  if (!isValidOptionalNumber(set.optionalNumber1)) {
-    errors.optionalNumber1 = "Must be a number or empty.";
-  }
-
-  // optionalNumber2
-  if (!isValidOptionalNumber(set.optionalNumber2)) {
-    errors.optionalNumber2 = "Must be a number or empty.";
+  // optionalNumber
+  if (!isValidOptionalNumber(set.optionalNumber)) {
+    errors.optionalNumber = "Must be a number or empty.";
   }
 
   // optionalPositiveNumber (> 0)

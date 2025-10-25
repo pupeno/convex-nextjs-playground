@@ -14,24 +14,21 @@ import { fromFormValues, toFieldErrors } from "@/lib/rhf";
 export type SetApi = {
   name: string;
   mandatoryNumber: number;
-  optionalNumber1: number | null;
-  optionalNumber2: number | null;
+  optionalNumber: number | null;
   optionalPositiveNumber: number | null;
 };
 
 export type SetFormValues = {
   name: string;
   mandatoryNumber: string;
-  optionalNumber1: string;
-  optionalNumber2: string;
+  optionalNumber: string;
   optionalPositiveNumber: string;
 };
 
 export const setFormDefaults: SetFormValues = {
   name: "",
   mandatoryNumber: "",
-  optionalNumber1: "",
-  optionalNumber2: "",
+  optionalNumber: "",
   optionalPositiveNumber: "",
 };
 
@@ -94,24 +91,10 @@ export function SetForm({
         />
         <FormField
           control={form.control}
-          name="optionalNumber1"
+          name="optionalNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Optional Number 1 (number input)</FormLabel>
-              <FormControl>
-                <Input type="number" step="0.01" placeholder="Optional" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="optionalNumber2"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Optional Number 2 (text input)</FormLabel>
+              <FormLabel>Optional Number</FormLabel>
               <FormControl>
                 <Input placeholder="Optional" {...field} />
               </FormControl>

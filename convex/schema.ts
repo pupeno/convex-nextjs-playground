@@ -5,8 +5,7 @@ export default defineSchema({
   sets: defineTable({
     name: v.string(),
     mandatoryNumber: v.number(),
-    optionalNumber1: v.optional(v.number()),
-    optionalNumber2: v.optional(v.number()),
+    optionalNumber: v.optional(v.number()),
     optionalPositiveNumber: v.optional(v.number()),
   }),
 });
