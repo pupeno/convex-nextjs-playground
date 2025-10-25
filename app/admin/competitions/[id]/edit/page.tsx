@@ -3,7 +3,8 @@
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useParams, useRouter } from "next/navigation";
-import { CompetitionForm } from "../../_lib/form";
+import { CompetitionForm, competitionFormDefaults, type CompetitionFormValues } from "../../_lib/form";
+import { toFormValues } from "@/lib/rhf";
 import { toast } from "sonner";
 import type { Id } from "@/convex/_generated/dataModel";
 import { useHeader } from "@/app/admin/_lib/header";
@@ -48,11 +49,7 @@ export default function AdminCompetitionsEditPage() {
 
   return (
     <CompetitionForm
-      competition={{ // TODO Fix converting from Convex to Form values
-        title: competition.title,
-        number1: competition.number1 ? competition.number1.toString() : "",
-        number2: competition.number2 ? competition.number2.toString() : ""
-      }} 
+      competition={toFormValues<CompetitionFormValues>(competitionFormDefaults, competition)}
       onSubmitAction={onSubmit}
       onCancelAction={() => router.push("/admin/competitions")}
       onDeleteAction={onDelete}

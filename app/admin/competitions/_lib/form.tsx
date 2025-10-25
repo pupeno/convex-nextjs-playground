@@ -7,33 +7,43 @@ import { Button } from "@/lib/ui/button";
 import { IconDeviceFloppy, IconTrash, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import { ConfirmDialog } from "@/lib/ui/admin/confirm-dialog";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { CompetitionValidator } from "./validation";
+import { Competition } from "@/lib/validation/competitions";
+import { validateCompetitionFrontend } from "./validation";
+import type { Resolver } from "react-hook-form";
+import { fromFormValues, toFieldErrors } from "@/lib/rhf";
 
-type CompetitionInput = z.input<typeof CompetitionValidator>;
-type CompetitionOutput = z.output<typeof CompetitionValidator>;
+export type CompetitionFormValues = {
+  title: string;
+  number1: string;
+  number2: string;
+};
+export const competitionFormDefaults: CompetitionFormValues = {
+  title: "",
+  number1: "",
+  number2: "",
+};
 
 export function CompetitionForm({ competition, onSubmitAction, onCancelAction, onDeleteAction }:
   {
-    competition?: CompetitionInput,
-    onSubmitAction: (competition: CompetitionOutput) => Promise<void>;
+    competition?: CompetitionFormValues,
+    onSubmitAction: (competition: Competition) => Promise<void>;
     onCancelAction: () => void;
     onDeleteAction?: () => Promise<void>;
   }
 ) {
-  const form = useForm({
-    resolver: zodResolver(CompetitionValidator),
+  const resolver: Resolver<CompetitionFormValues> = async (values) => {
+    const result = validateCompetitionFrontend(values);
+    return result.ok ? { values, errors: {} } : { values: {}, errors: toFieldErrors(values, result) };
+  };
+
+  const form = useForm<CompetitionFormValues>({
+    resolver,
     ...(competition ? { values: competition } : {}),
-    defaultValues: {
-      title: "",
-      number1: "",
-      number2: ""
-    }
+    defaultValues: competitionFormDefaults,
   });
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    await onSubmitAction(values);
+    await onSubmitAction(fromFormValues<Competition>(values));
   });
 
   const [confirmOpen, setConfirmOpen] = useState(false);

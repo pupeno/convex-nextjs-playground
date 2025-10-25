@@ -1,12 +1,26 @@
-import { z } from "zod";
+import { isValidBlankableNumber, type ValidationResult } from "@/lib/validation/validation";
+import type { CompetitionFormValues } from "./form";
 
-const blankStringToNullNumber = z
-  .string()
-  .transform((s) => (s === "" ? null : Number(s)))
-  .pipe(z.union([z.number(), z.null()]));
+export function validateCompetitionFrontend(competition: CompetitionFormValues): ValidationResult<CompetitionFormValues> {
+  const errors: Record<string, string> = {};
 
-export const CompetitionValidator = z.object({
-      title: z.string().trim().min(1, "Title is required"),
-      number1: blankStringToNullNumber.pipe(z.union([z.number().finite().positive(), z.null()])).optional(),
-      number2: blankStringToNullNumber.pipe(z.union([z.number().finite().positive(), z.null()])).optional()
-  });
+  // title
+  if (competition.title.trim().length === 0) {
+    errors.title = "Title is required";
+  }
+
+  // number1 (optional finite number)
+  if (!isValidBlankableNumber(competition.number1)) {
+    errors.number1 = "Must be a number or empty.";
+  }
+
+  // number2 (optional finite number)
+  if (!isValidBlankableNumber(competition.number2)) {
+    errors.number2 = "Must be a number or empty.";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { ok: false, errors };
+  }
+  return { ok: true, value: competition };
+}
