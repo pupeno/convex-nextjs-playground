@@ -1,4 +1,4 @@
-import type { FieldErrors, FieldValues, Resolver } from "react-hook-form";
+import type { FieldErrors, FieldValues } from "react-hook-form";
 
 type ResultLike = { ok: true } | { ok: false; errors: Record<string, string> };
 
@@ -27,9 +27,7 @@ export function toFieldErrors<TFieldValues extends FieldValues>(
   return resultErrors as FieldErrors<TFieldValues>;
 }
 
-export function fromFormValues<TOut extends Record<string, unknown>>(
-  values: Record<string, unknown>,
-): TOut {
+export function fromFormValues<TOut extends Record<string, unknown>>(values: Record<string, unknown>): TOut {
   const out: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(values)) {
     if (typeof value === "string") {

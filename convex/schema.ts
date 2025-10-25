@@ -5,9 +5,10 @@ export default defineSchema({
   sets: defineTable({
     name: v.string(),
     mandatoryNumber: v.number(),
+    uniqueNumber: v.number(),
     optionalNumber: v.optional(v.number()),
     optionalPositiveNumber: v.optional(v.number()),
-  }),
+  }).index("by_uniqueNumber", ["uniqueNumber"]),
 });
 
 // Converts a structure from having `null` values to having `undefined` values.

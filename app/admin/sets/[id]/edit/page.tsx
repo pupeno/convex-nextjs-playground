@@ -3,7 +3,7 @@
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useParams, useRouter } from "next/navigation";
-import { SetForm, SetApi, setFormDefaults, type SetFormValues } from "../../_lib/form";
+import { SetApi, SetForm, setFormDefaults, type SetFormValues } from "../../_lib/form";
 import { toFormValues } from "@/lib/rhf";
 import { toast } from "sonner";
 import type { Id } from "@/convex/_generated/dataModel";
@@ -35,9 +35,11 @@ export default function AdminSetsEditPage() {
 
   async function onSubmit(data: SetApi) {
     const result = await update({ id, ...data });
-    toast.success("Set updated", { description: `"${data.name}" was updated.` });
-    router.push("/admin/sets");
-    return;
+    if (result.ok) {
+      toast.success("Set updated", { description: `"${data.name}" was updated.` });
+      router.push("/admin/sets");
+    }
+    return result;
   }
 
   const onDelete = async () => {

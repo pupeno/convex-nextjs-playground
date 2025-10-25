@@ -1,8 +1,15 @@
-import { isBlank, isValidNumber, isValidOptionalNumber, isValidOptionalNumberWithRange, type ValidationResult } from "./validation";
+import {
+  isBlank,
+  isValidNumber,
+  isValidOptionalNumber,
+  isValidOptionalNumberWithRange,
+  type ValidationResult,
+} from "./validation";
 
 export type SetValues = {
   name: string;
   mandatoryNumber: string | number | null | undefined;
+  uniqueNumber: string | number | null | undefined;
   optionalNumber: string | number | null | undefined;
   optionalPositiveNumber: string | number | null | undefined;
 };
@@ -20,6 +27,13 @@ export function validateSet<T extends SetValues>(set: T): ValidationResult<T> {
     errors.mandatoryNumber = "This field is required.";
   } else if (!isValidNumber(set.mandatoryNumber as string | number)) {
     errors.mandatoryNumber = "Must be a number.";
+  }
+
+  // uniqueNumber
+  if (isBlank(set.uniqueNumber)) {
+    errors.uniqueNumber = "This field is required.";
+  } else if (!isValidNumber(set.uniqueNumber as string | number)) {
+    errors.uniqueNumber = "Must be a number.";
   }
 
   // optionalNumber

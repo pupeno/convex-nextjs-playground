@@ -14,6 +14,7 @@ import { fromFormValues, toFieldErrors } from "@/lib/rhf";
 export type SetApi = {
   name: string;
   mandatoryNumber: number;
+  uniqueNumber: number;
   optionalNumber: number | null;
   optionalPositiveNumber: number | null;
 };
@@ -21,6 +22,7 @@ export type SetApi = {
 export type SetFormValues = {
   name: string;
   mandatoryNumber: string;
+  uniqueNumber: string;
   optionalNumber: string;
   optionalPositiveNumber: string;
 };
@@ -28,6 +30,7 @@ export type SetFormValues = {
 export const setFormDefaults: SetFormValues = {
   name: "",
   mandatoryNumber: "",
+  uniqueNumber: "",
   optionalNumber: "",
   optionalPositiveNumber: "",
 };
@@ -39,7 +42,7 @@ export function SetForm({
   onDeleteAction,
 }: {
   set?: SetFormValues;
-  onSubmitAction: (set: SetApi) => Promise<void>;
+  onSubmitAction: (set: SetApi) => Promise<{ ok: true; id: string } | { ok: false; errors: Record<string, string> }>;
   onCancelAction: () => void;
   onDeleteAction?: () => Promise<void>;
 }) {
@@ -55,7 +58,16 @@ export function SetForm({
   });
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    await onSubmitAction(fromFormValues<SetApi>(values));
+    const result = await onSubmitAction(fromFormValues<SetApi>(values));
+    if (!result.ok) {
+      const fieldErrors = toFieldErrors(values, result);
+      for (const name in fieldErrors) {
+        const err = fieldErrors[name as keyof SetFormValues];
+        if (err) {
+          form.setError(name as keyof SetFormValues, err);
+        }
+      }
+    }
   });
 
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -84,6 +96,19 @@ export function SetForm({
               <FormLabel>Mandatory Number</FormLabel>
               <FormControl>
                 <Input type="number" step="0.01" placeholder="Required" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="uniqueNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Unique Number</FormLabel>
+              <FormControl>
+                <Input type="number" step="1" placeholder="Required and unique" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

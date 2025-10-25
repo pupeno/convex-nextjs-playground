@@ -13,8 +13,9 @@ export function isBlank(value: string | number | null | undefined): boolean {
 }
 
 export function isValidNumber(value: string | number): boolean {
-  if (typeof value === "number") { 
-    return Number.isFinite(value); }
+  if (typeof value === "number") {
+    return Number.isFinite(value);
+  }
   const trimmed = value.trim();
   if (trimmed === "") {
     return false;

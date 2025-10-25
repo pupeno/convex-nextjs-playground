@@ -14,9 +14,11 @@ export default function AdminSetsNewPage() {
 
   async function onSubmit(set: SetApi) {
     const result = await create(set);
-    toast.success("New set created", { description: `"${set.name}" was created successfully.` });
-    router.push("/admin/sets");
-    return;
+    if (result.ok) {
+      toast.success("New set created", { description: `"${set.name}" was created successfully.` });
+      router.push("/admin/sets");
+    }
+    return result;
   }
 
   return <SetForm onCancelAction={() => router.push("/admin/sets")} onSubmitAction={onSubmit} />;
