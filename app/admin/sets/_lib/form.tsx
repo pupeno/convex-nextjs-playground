@@ -15,18 +15,21 @@ export type SetApi = {
   name: string;
   mandatoryNumber: number;
   optionalNumber1: number | null;
+  optionalNumber2: number | null;
 };
 
 export type SetFormValues = {
   name: string;
   mandatoryNumber: string;
   optionalNumber1: string;
+  optionalNumber2: string;
 };
 
 export const setFormDefaults: SetFormValues = {
   name: "",
   mandatoryNumber: "",
   optionalNumber1: "",
+  optionalNumber2: "",
 };
 
 export function SetForm({
@@ -91,7 +94,21 @@ export function SetForm({
           name="optionalNumber1"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Optional Number 1</FormLabel>
+              <FormLabel>Optional Number 1 (number input)</FormLabel>
+              <FormControl>
+                <Input type="number" step="0.01" placeholder="Optional" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="optionalNumber2"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Optional Number 2 (text input)</FormLabel>
               <FormControl>
                 <Input placeholder="Optional" {...field} />
               </FormControl>

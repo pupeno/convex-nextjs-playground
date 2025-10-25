@@ -7,6 +7,7 @@ const SetsInputV = {
   name: v.string(),
   mandatoryNumber: v.number(),
   optionalNumber1: v.union(v.number(), v.null()),
+  optionalNumber2: v.union(v.number(), v.null()),
 };
 
 const SetsOutputV = v.object({
@@ -15,6 +16,7 @@ const SetsOutputV = v.object({
   name: v.string(),
   mandatoryNumber: v.number(),
   optionalNumber1: v.optional(v.number()),
+  optionalNumber2: v.optional(v.number()),
 });
 
 export const list = query({
