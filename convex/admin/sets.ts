@@ -5,7 +5,7 @@ import { toDatabase } from "../schema";
 
 const SetsInputV = {
   name: v.string(),
-  number1: v.union(v.number(), v.null()),
+  mandatoryNumber: v.number(),
   number2: v.union(v.number(), v.null()),
 };
 
@@ -13,7 +13,7 @@ const SetsOutputV = v.object({
   _id: v.id("sets"),
   _creationTime: v.number(),
   name: v.string(),
-  number1: v.optional(v.number()),
+  mandatoryNumber: v.number(),
   number2: v.optional(v.number()),
 });
 

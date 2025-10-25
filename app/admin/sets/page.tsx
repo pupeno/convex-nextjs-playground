@@ -50,7 +50,7 @@ export default function AdminSetsPage() {
         <TableHeader>
           <TableRow>
             <TableHead>Name</TableHead>
-            <TableHead>Number 1</TableHead>
+            <TableHead>Mandatory Number</TableHead>
             <TableHead>Number 2</TableHead>
             <TableHead></TableHead>
           </TableRow>
@@ -59,7 +59,7 @@ export default function AdminSetsPage() {
           {sets.map((set) => (
             <TableRow key={set._id} className="cursor-pointer" onClick={() => goToEdit(set._id)}>
               <TableCell>{set.name}</TableCell>
-              <TableCell>{set.number1}</TableCell>
+              <TableCell>{set.mandatoryNumber}</TableCell>
               <TableCell>{set.number2}</TableCell>
               <TableCell className="flex justify-end">
                 <DropdownMenu>

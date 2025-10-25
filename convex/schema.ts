@@ -4,7 +4,7 @@ import { v } from "convex/values";
 export default defineSchema({
   sets: defineTable({
     name: v.string(),
-    number1: v.optional(v.number()),
+    mandatoryNumber: v.number(),
     number2: v.optional(v.number()),
   }),
 });
