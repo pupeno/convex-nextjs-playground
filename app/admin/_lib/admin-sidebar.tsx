@@ -1,12 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  type Icon,
-  IconInnerShadowTop,
-  IconKey,
-  IconStack,
-} from "@tabler/icons-react";
+import { type Icon, IconInnerShadowTop, IconStack } from "@tabler/icons-react";
 import Link from "next/link";
 import {
   Sidebar,
@@ -27,21 +22,16 @@ import {
 } from "@/lib/ui/admin/dropdown-menu";
 import { MoonIcon, SunIcon, SunMoonIcon } from "lucide-react";
 
-export function AdminSidebar({
-  ...props
-}: React.ComponentProps<typeof Sidebar>) {
+export function AdminSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
+            <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
               <Link href="/admin">
                 <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Playground</span>
+                <span className="text-base font-semibold">Convex Next.js Playground</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -50,11 +40,7 @@ export function AdminSidebar({
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            <SidebarMenuItemIconLink
-              title="Sets"
-              url="/admin/sets"
-              icon={IconStack}
-            />
+            <SidebarMenuItemIconLink title="Sets" url="/admin/sets" icon={IconStack} />
           </SidebarMenu>
         </SidebarGroup>
         <SidebarGroup className="mt-auto">
@@ -86,10 +72,7 @@ export function SidebarMenuItemThemeSwitcher() {
           </SidebarMenuButton>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuRadioGroup
-            value={theme ?? "system"}
-            onValueChange={(v) => setTheme(v)}
-          >
+          <DropdownMenuRadioGroup value={theme ?? "system"} onValueChange={(v) => setTheme(v)}>
             <DropdownMenuRadioItem value="light">
               <SunIcon className="size-4" /> Light
             </DropdownMenuRadioItem>
@@ -106,15 +89,7 @@ export function SidebarMenuItemThemeSwitcher() {
   );
 }
 
-function SidebarMenuItemIconLink({
-  title,
-  url,
-  icon: Icon,
-}: {
-  title: string;
-  url: string;
-  icon: Icon;
-}) {
+function SidebarMenuItemIconLink({ title, url, icon: Icon }: { title: string; url: string; icon: Icon }) {
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild>

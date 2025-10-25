@@ -1,5 +1,6 @@
 "use client";
 
+import type { Resolver } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/lib/ui/admin/form";
 import { Input } from "@/lib/ui/admin/input";
@@ -9,7 +10,6 @@ import { useState } from "react";
 import { ConfirmDialog } from "@/lib/ui/admin/confirm-dialog";
 import { Set } from "@/lib/validation/sets";
 import { validateSetFrontend } from "./validation";
-import type { Resolver } from "react-hook-form";
 import { fromFormValues, toFieldErrors } from "@/lib/rhf";
 
 export type SetFormValues = {
@@ -23,14 +23,17 @@ export const setFormDefaults: SetFormValues = {
   number2: "",
 };
 
-export function SetForm({ set, onSubmitAction, onCancelAction, onDeleteAction }:
-  {
-    set?: SetFormValues,
-    onSubmitAction: (set: Set) => Promise<void>;
-    onCancelAction: () => void;
-    onDeleteAction?: () => Promise<void>;
-  }
-) {
+export function SetForm({
+  set,
+  onSubmitAction,
+  onCancelAction,
+  onDeleteAction,
+}: {
+  set?: SetFormValues;
+  onSubmitAction: (set: Set) => Promise<void>;
+  onCancelAction: () => void;
+  onDeleteAction?: () => Promise<void>;
+}) {
   const resolver: Resolver<SetFormValues> = async (values) => {
     const result = validateSetFrontend(values);
     return result.ok ? { values, errors: {} } : { values: {}, errors: toFieldErrors(values, result) };
@@ -50,9 +53,7 @@ export function SetForm({ set, onSubmitAction, onCancelAction, onDeleteAction }:
 
   return (
     <Form {...form}>
-      <form
-        className="flex h-full flex-col gap-4"
-        onSubmit={handleSubmit}>
+      <form className="flex h-full flex-col gap-4" onSubmit={handleSubmit}>
         <FormField
           control={form.control}
           name="title"
