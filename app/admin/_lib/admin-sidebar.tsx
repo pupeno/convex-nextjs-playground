@@ -60,11 +60,6 @@ export function AdminSidebar({
         <SidebarGroup className="mt-auto">
           <SidebarMenu>
             <SidebarMenuItemThemeSwitcher />
-            <SidebarMenuItemIconLink
-              title="Change Password"
-              url="/admin/change-password"
-              icon={IconKey}
-            />
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
