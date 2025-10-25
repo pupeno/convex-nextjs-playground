@@ -7,43 +7,43 @@ import { Button } from "@/lib/ui/button";
 import { IconDeviceFloppy, IconTrash, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import { ConfirmDialog } from "@/lib/ui/admin/confirm-dialog";
-import { Competition } from "@/lib/validation/competitions";
-import { validateCompetitionFrontend } from "./validation";
+import { Set } from "@/lib/validation/sets";
+import { validateSetFrontend } from "./validation";
 import type { Resolver } from "react-hook-form";
 import { fromFormValues, toFieldErrors } from "@/lib/rhf";
 
-export type CompetitionFormValues = {
+export type SetFormValues = {
   title: string;
   number1: string;
   number2: string;
 };
-export const competitionFormDefaults: CompetitionFormValues = {
+export const setFormDefaults: SetFormValues = {
   title: "",
   number1: "",
   number2: "",
 };
 
-export function CompetitionForm({ competition, onSubmitAction, onCancelAction, onDeleteAction }:
+export function SetForm({ set, onSubmitAction, onCancelAction, onDeleteAction }:
   {
-    competition?: CompetitionFormValues,
-    onSubmitAction: (competition: Competition) => Promise<void>;
+    set?: SetFormValues,
+    onSubmitAction: (set: Set) => Promise<void>;
     onCancelAction: () => void;
     onDeleteAction?: () => Promise<void>;
   }
 ) {
-  const resolver: Resolver<CompetitionFormValues> = async (values) => {
-    const result = validateCompetitionFrontend(values);
+  const resolver: Resolver<SetFormValues> = async (values) => {
+    const result = validateSetFrontend(values);
     return result.ok ? { values, errors: {} } : { values: {}, errors: toFieldErrors(values, result) };
   };
 
-  const form = useForm<CompetitionFormValues>({
+  const form = useForm<SetFormValues>({
     resolver,
-    ...(competition ? { values: competition } : {}),
-    defaultValues: competitionFormDefaults,
+    ...(set ? { values: set } : {}),
+    defaultValues: setFormDefaults,
   });
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    await onSubmitAction(fromFormValues<Competition>(values));
+    await onSubmitAction(fromFormValues<Set>(values));
   });
 
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -128,7 +128,7 @@ export function CompetitionForm({ competition, onSubmitAction, onCancelAction, o
           open={confirmOpen}
           onOpenChange={setConfirmOpen}
           title="Confirm deletion"
-          description={`Are you sure you want to delete "${competition?.title ?? ""}"?`}
+          description={`Are you sure you want to delete "${set?.title ?? ""}"?`}
           onConfirm={async () => {
             await onDeleteAction();
           }}

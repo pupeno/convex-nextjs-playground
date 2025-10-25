@@ -3,14 +3,9 @@
 import * as React from "react";
 import {
   type Icon,
-  IconBuilding,
-  IconCategory2,
-  IconCurrencyDollar,
   IconInnerShadowTop,
   IconKey,
-  IconTags,
-  IconTrophy,
-  IconUsers,
+  IconStack,
 } from "@tabler/icons-react";
 import Link from "next/link";
 import {
@@ -56,9 +51,9 @@ export function AdminSidebar({
         <SidebarGroup>
           <SidebarMenu>
             <SidebarMenuItemIconLink
-              title="Competitions"
-              url="/admin/competitions"
-              icon={IconTrophy}
+              title="Sets"
+              url="/admin/sets"
+              icon={IconStack}
             />
           </SidebarMenu>
         </SidebarGroup>

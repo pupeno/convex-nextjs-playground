@@ -8,7 +8,7 @@
  * @module
  */
 
-import type * as admin_competitions from "../admin/competitions.js";
+import type * as admin_sets from "../admin/sets.js";
 
 import type {
   ApiFromModules,
@@ -25,7 +25,7 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
-  "admin/competitions": typeof admin_competitions;
+  "admin/sets": typeof admin_sets;
 }>;
 declare const fullApiWithMounts: typeof fullApi;
 

@@ -1,9 +1,9 @@
 import { v } from "convex/values";
 import { mutation, query } from "../_generated/server";
 import { isValidBlankableNumber, type ValidationResult } from "../../lib/validation/validation";
-import { type Competition } from "../../lib/validation/competitions";
+import { type Set } from "../../lib/validation/sets";
 
-const competitionArgs = {
+const setArgs = {
   title: v.string(),
   number1: v.optional(v.union(v.number(), v.null())),
   number2: v.optional(v.union(v.number(), v.null())),
@@ -13,37 +13,37 @@ export const list = query({
   args: {},
   returns: v.array(
     v.object({
-      _id: v.id("competitions"),
+      _id: v.id("sets"),
       _creationTime: v.number(),
-      ...competitionArgs,
+      ...setArgs,
     }),
   ),
   handler: async (ctx) => {
-    return await ctx.db.query("competitions").collect();
+    return await ctx.db.query("sets").collect();
   },
 });
 
 export const create = mutation({
-  args: competitionArgs,
-  returns: v.id("competitions"),
+  args: setArgs,
+  returns: v.id("sets"),
   handler: async (ctx, args) => {
-    const result = validateCompetitionBackend(args);
+    const result = validateSetBackend(args);
     if (!result.ok) {
       throw new Error(`Validation failed: ${JSON.stringify(result.errors)}`);
     }
-    return await ctx.db.insert("competitions", result.value);
+    return await ctx.db.insert("sets", result.value);
   },
 });
 
 export const get = query({
   args: {
-    id: v.id("competitions"),
+    id: v.id("sets"),
   },
   returns: v.union(
     v.object({
-      _id: v.id("competitions"),
+      _id: v.id("sets"),
       _creationTime: v.number(),
-      ...competitionArgs,
+      ...setArgs,
     }),
     v.null(),
   ),
@@ -54,13 +54,13 @@ export const get = query({
 
 export const update = mutation({
   args: {
-    id: v.id("competitions"),
-    ...competitionArgs,
+    id: v.id("sets"),
+    ...setArgs,
   },
-  returns: v.id("competitions"),
+  returns: v.id("sets"),
   handler: async (ctx, args) => {
     const { id, ...updates } = args;
-    const result = validateCompetitionBackend(updates as Competition);
+    const result = validateSetBackend(updates as Set);
     if (!result.ok) {
       throw new Error(`Validation failed: ${JSON.stringify(result.errors)}`);
     }
@@ -70,28 +70,25 @@ export const update = mutation({
 });
 
 export const remove = mutation({
-  args: { id: v.id("competitions") },
+  args: { id: v.id("sets") },
   returns: v.null(),
   handler: async (ctx, args) => {
     await ctx.db.delete(args.id);
   },
 });
 
-function validateCompetitionBackend(competition: Competition): ValidationResult<Competition> {
+function validateSetBackend(set: Set): ValidationResult<Set> {
   const errors: Record<string, string> = {};
 
-  // title
-  if (competition.title.trim().length === 0) {
+  if (set.title.trim().length === 0) {
     errors.title = "Title is required";
   }
 
-  // number1
-  if (!isValidBlankableNumber(competition.number1)) {
+  if (!isValidBlankableNumber(set.number1)) {
     errors.number1 = "Must be a number or empty.";
   }
 
-  // number2
-  if (!isValidBlankableNumber(competition.number2)) {
+  if (!isValidBlankableNumber(set.number2)) {
     errors.number2 = "Must be a number or empty.";
   }
 
@@ -99,5 +96,5 @@ function validateCompetitionBackend(competition: Competition): ValidationResult<
     return { ok: false, errors };
   }
 
-  return { ok: true, value: competition };
+  return { ok: true, value: set };
 }
