@@ -1,7 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "../_generated/server";
-import { isValidBlankableNumber, type ValidationResult } from "../../lib/validation/validation";
-import { type Set } from "../../lib/validation/sets";
+import { validateSet } from "../../lib/validation/sets";
 import { toDatabase } from "../schema";
 
 const SetsInputV = {
@@ -30,7 +29,7 @@ export const create = mutation({
   args: SetsInputV,
   returns: v.id("sets"),
   handler: async (ctx, args) => {
-    const result = validateSetBackend(args);
+    const result = validateSet(args);
     if (!result.ok) {
       throw new Error(`Validation failed: ${JSON.stringify(result.errors)}`);
     }
@@ -56,7 +55,7 @@ export const update = mutation({
   returns: v.id("sets"),
   handler: async (ctx, args) => {
     const { id, ...updates } = args;
-    const result = validateSetBackend(updates as Set);
+    const result = validateSet(updates);
     if (!result.ok) {
       throw new Error(`Validation failed: ${JSON.stringify(result.errors)}`);
     }
@@ -72,25 +71,3 @@ export const remove = mutation({
     await ctx.db.delete(args.id);
   },
 });
-
-function validateSetBackend(set: Set): ValidationResult<Set> {
-  const errors: Record<string, string> = {};
-
-  if (set.name.trim().length === 0) {
-    errors.name = "Name is required";
-  }
-
-  if (!isValidBlankableNumber(set.number1)) {
-    errors.number1 = "Must be a number or empty.";
-  }
-
-  if (!isValidBlankableNumber(set.number2)) {
-    errors.number2 = "Must be a number or empty.";
-  }
-
-  if (Object.keys(errors).length > 0) {
-    return { ok: false, errors };
-  }
-
-  return { ok: true, value: set };
-}

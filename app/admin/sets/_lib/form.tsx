@@ -8,15 +8,21 @@ import { Button } from "@/lib/ui/button";
 import { IconDeviceFloppy, IconTrash, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import { ConfirmDialog } from "@/lib/ui/admin/confirm-dialog";
-import { Set } from "@/lib/validation/sets";
-import { validateSetFrontend } from "./validation";
+import { validateSet } from "@/lib/validation/sets";
 import { fromFormValues, toFieldErrors } from "@/lib/rhf";
+
+export type SetApi = {
+  name: string;
+  number1: number | null;
+  number2: number | null;
+};
 
 export type SetFormValues = {
   name: string;
   number1: string;
   number2: string;
 };
+
 export const setFormDefaults: SetFormValues = {
   name: "",
   number1: "",
@@ -30,12 +36,12 @@ export function SetForm({
   onDeleteAction,
 }: {
   set?: SetFormValues;
-  onSubmitAction: (set: Set) => Promise<void>;
+  onSubmitAction: (set: SetApi) => Promise<void>;
   onCancelAction: () => void;
   onDeleteAction?: () => Promise<void>;
 }) {
   const resolver: Resolver<SetFormValues> = async (values) => {
-    const result = validateSetFrontend(values);
+    const result = validateSet(values);
     return result.ok ? { values, errors: {} } : { values: {}, errors: toFieldErrors(values, result) };
   };
 
@@ -46,7 +52,7 @@ export function SetForm({
   });
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    await onSubmitAction(fromFormValues<Set>(values));
+    await onSubmitAction(fromFormValues<SetApi>(values));
   });
 
   const [confirmOpen, setConfirmOpen] = useState(false);
