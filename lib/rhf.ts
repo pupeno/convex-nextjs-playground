@@ -39,7 +39,7 @@ export function fromFormValues<TOut extends Record<string, unknown>>(values: Rec
         out[key] = Number.isFinite(n) ? n : s;
       }
     } else {
-      out[key] = value as any;
+      out[key] = value;
     }
   }
   return out as TOut;
@@ -49,7 +49,7 @@ export function toFormValues<TShape extends Record<string, string>>(
   shape: TShape,
   input: Record<string, unknown>,
 ): TShape {
-  const out: any = {};
+  const out = {} as { [K in keyof TShape]: string };
   for (const key of Object.keys(shape) as Array<keyof TShape>) {
     const v = input[key as string];
     out[key] = v == null ? "" : String(v);
