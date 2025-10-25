@@ -3,14 +3,9 @@
 import * as React from "react";
 import {
   type Icon,
-  IconBuilding,
-  IconCategory2,
-  IconCurrencyDollar,
   IconInnerShadowTop,
   IconKey,
-  IconTags,
-  IconTrophy,
-  IconUsers,
+  IconStack,
 } from "@tabler/icons-react";
 import Link from "next/link";
 import {
@@ -46,7 +41,7 @@ export function AdminSidebar({
             >
               <Link href="/admin">
                 <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Admin</span>
+                <span className="text-base font-semibold">Playground</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -56,45 +51,15 @@ export function AdminSidebar({
         <SidebarGroup>
           <SidebarMenu>
             <SidebarMenuItemIconLink
-              title="Genres"
-              url="/admin/genres"
-              icon={IconTags}
-            />
-            <SidebarMenuItemIconLink
-              title="Organizations"
-              url="/admin/organizations"
-              icon={IconBuilding}
-            />
-            <SidebarMenuItemIconLink
-              title="Competitions"
-              url="/admin/competitions"
-              icon={IconTrophy}
-            />
-            <SidebarMenuItemIconLink
-              title="Currencies"
-              url="/admin/currencies"
-              icon={IconCurrencyDollar}
-            />
-            <SidebarMenuItemIconLink
-              title="Types"
-              url="/admin/types"
-              icon={IconCategory2}
-            />
-            <SidebarMenuItemIconLink
-              title="Users"
-              url="/admin/users"
-              icon={IconUsers}
+              title="Sets"
+              url="/admin/sets"
+              icon={IconStack}
             />
           </SidebarMenu>
         </SidebarGroup>
         <SidebarGroup className="mt-auto">
           <SidebarMenu>
             <SidebarMenuItemThemeSwitcher />
-            <SidebarMenuItemIconLink
-              title="Change Password"
-              url="/admin/change-password"
-              icon={IconKey}
-            />
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>

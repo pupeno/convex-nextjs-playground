@@ -19,29 +19,29 @@ import { ConfirmDialog } from "@/lib/ui/admin/confirm-dialog";
 import { toast } from "sonner";
 import { useHeader } from "@/app/admin/_lib/header";
 
-export default function AdminCompetitionsPage() {
+export default function AdminSetsPage() {
   const router = useRouter();
-  useHeader({ title: "Competitions" });
-  const competitions = useQuery(api.admin.competitions.list, {});
-  const remove = useMutation(api.admin.competitions.remove);
+  useHeader({ title: "Sets" });
+  const sets = useQuery(api.admin.sets.list, {});
+  const remove = useMutation(api.admin.sets.remove);
 
-  const [confirm, setConfirm] = useState<{ id: Id<"competitions">; title: string } | null>(null);
+  const [confirm, setConfirm] = useState<{ id: Id<"sets">; title: string } | null>(null);
 
-  if (competitions === undefined) {
+  if (sets === undefined) {
     return <div className="p-8">Loading…</div>;
   }
 
   function goToCreate() {
-    router.push("/admin/competitions/new");
+    router.push("/admin/sets/new");
   }
 
-  function goToEdit(id: Id<"competitions">) {
-    router.push(`/admin/competitions/${id}/edit`);
+  function goToEdit(id: Id<"sets">) {
+    router.push(`/admin/sets/${id}/edit`);
   }
 
-  async function onDelete(id: Id<"competitions">) {
+  async function onDelete(id: Id<"sets">) {
     await remove({ id });
-    toast.success("Competition deleted");
+    toast.success("Set deleted");
   }
 
   return (
@@ -50,15 +50,17 @@ export default function AdminCompetitionsPage() {
         <TableHeader>
           <TableRow>
             <TableHead>Title</TableHead>
-            <TableHead>Fee</TableHead>
+            <TableHead>Number 1</TableHead>
+            <TableHead>Number 2</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {competitions.map((competition) => (
-            <TableRow key={competition._id} className="cursor-pointer" onClick={() => goToEdit(competition._id)}>
-              <TableCell>{competition.title}</TableCell>
-              <TableCell>{competition.fee}</TableCell>
+          {sets.map((set) => (
+            <TableRow key={set._id} className="cursor-pointer" onClick={() => goToEdit(set._id)}>
+              <TableCell>{set.title}</TableCell>
+              <TableCell>{set.number1}</TableCell>
+              <TableCell>{set.number2}</TableCell>
               <TableCell className="flex justify-end">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -72,14 +74,14 @@ export default function AdminCompetitionsPage() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-32" onClick={(e) => e.stopPropagation()}>
-                    <DropdownMenuItem onSelect={() => goToEdit(competition._id)}>
+                    <DropdownMenuItem onSelect={() => goToEdit(set._id)}>
                       <IconPencil />
                       Edit
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       variant="destructive"
-                      onSelect={() => setConfirm({ id: competition._id, title: competition.title })}>
+                      onSelect={() => setConfirm({ id: set._id, title: set.title })}>
                       <IconTrash />
                       Delete
                     </DropdownMenuItem>
@@ -94,7 +96,7 @@ export default function AdminCompetitionsPage() {
       <div className="mt-4 flex justify-end">
         <Button className="w-full md:w-auto" variant="outline" size="sm" onClick={goToCreate}>
           <IconPlus />
-          Add New Competition
+          Add New Set
         </Button>
       </div>
 
