@@ -1,10 +1,11 @@
-import { isBlank, isValidNumber, isValidOptionalNumber, type ValidationResult } from "./validation";
+import { isBlank, isValidNumber, isValidOptionalNumber, isValidOptionalNumberWithRange, type ValidationResult } from "./validation";
 
 export type SetValues = {
   name: string;
   mandatoryNumber: string | number | null | undefined;
   optionalNumber1: string | number | null | undefined;
   optionalNumber2: string | number | null | undefined;
+  optionalPositiveNumber: string | number | null | undefined;
 };
 
 export function validateSet<T extends SetValues>(set: T): ValidationResult<T> {
@@ -30,6 +31,11 @@ export function validateSet<T extends SetValues>(set: T): ValidationResult<T> {
   // optionalNumber2
   if (!isValidOptionalNumber(set.optionalNumber2)) {
     errors.optionalNumber2 = "Must be a number or empty.";
+  }
+
+  // optionalPositiveNumber (> 0)
+  if (!isValidOptionalNumberWithRange(set.optionalPositiveNumber, { minExclusive: 0 })) {
+    errors.optionalPositiveNumber = "Must be a positive number or empty.";
   }
 
   if (Object.keys(errors).length > 0) {

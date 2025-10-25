@@ -8,6 +8,7 @@ const SetsInputV = {
   mandatoryNumber: v.number(),
   optionalNumber1: v.union(v.number(), v.null()),
   optionalNumber2: v.union(v.number(), v.null()),
+  optionalPositiveNumber: v.union(v.number(), v.null()),
 };
 
 const SetsOutputV = v.object({
@@ -17,6 +18,7 @@ const SetsOutputV = v.object({
   mandatoryNumber: v.number(),
   optionalNumber1: v.optional(v.number()),
   optionalNumber2: v.optional(v.number()),
+  optionalPositiveNumber: v.optional(v.number()),
 });
 
 export const list = query({

@@ -7,6 +7,7 @@ export default defineSchema({
     mandatoryNumber: v.number(),
     optionalNumber1: v.optional(v.number()),
     optionalNumber2: v.optional(v.number()),
+    optionalPositiveNumber: v.optional(v.number()),
   }),
 });
 

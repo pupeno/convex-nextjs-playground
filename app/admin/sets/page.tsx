@@ -53,6 +53,7 @@ export default function AdminSetsPage() {
             <TableHead>Mandatory Number</TableHead>
             <TableHead>Optional Number 1</TableHead>
             <TableHead>Optional Number 2</TableHead>
+            <TableHead>Optional Positive Number</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
@@ -63,6 +64,7 @@ export default function AdminSetsPage() {
               <TableCell>{set.mandatoryNumber}</TableCell>
               <TableCell>{set.optionalNumber1}</TableCell>
               <TableCell>{set.optionalNumber2}</TableCell>
+              <TableCell>{set.optionalPositiveNumber}</TableCell>
               <TableCell className="flex justify-end">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
