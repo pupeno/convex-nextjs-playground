@@ -4,8 +4,8 @@ import type { SetFormValues } from "./form";
 export function validateSetFrontend(data: SetFormValues): ValidationResult<SetFormValues> {
   const errors: Record<string, string> = {};
 
-  if (data.title.trim().length === 0) {
-    errors.title = "Title is required";
+  if (data.name.trim().length === 0) {
+    errors.name = "Name is required";
   }
 
   if (!isValidBlankableNumber(data.number1)) {

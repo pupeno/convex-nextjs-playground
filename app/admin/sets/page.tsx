@@ -25,7 +25,7 @@ export default function AdminSetsPage() {
   const sets = useQuery(api.admin.sets.list, {});
   const remove = useMutation(api.admin.sets.remove);
 
-  const [confirm, setConfirm] = useState<{ id: Id<"sets">; title: string } | null>(null);
+  const [confirm, setConfirm] = useState<{ id: Id<"sets">; name: string } | null>(null);
 
   if (sets === undefined) {
     return <div className="p-8">Loading…</div>;
@@ -49,7 +49,7 @@ export default function AdminSetsPage() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Title</TableHead>
+            <TableHead>Name</TableHead>
             <TableHead>Number 1</TableHead>
             <TableHead>Number 2</TableHead>
             <TableHead></TableHead>
@@ -58,7 +58,7 @@ export default function AdminSetsPage() {
         <TableBody>
           {sets.map((set) => (
             <TableRow key={set._id} className="cursor-pointer" onClick={() => goToEdit(set._id)}>
-              <TableCell>{set.title}</TableCell>
+              <TableCell>{set.name}</TableCell>
               <TableCell>{set.number1}</TableCell>
               <TableCell>{set.number2}</TableCell>
               <TableCell className="flex justify-end">
@@ -81,7 +81,7 @@ export default function AdminSetsPage() {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       variant="destructive"
-                      onSelect={() => setConfirm({ id: set._id, title: set.title })}>
+                      onSelect={() => setConfirm({ id: set._id, name: set.name })}>
                       <IconTrash />
                       Delete
                     </DropdownMenuItem>
@@ -106,7 +106,7 @@ export default function AdminSetsPage() {
           if (!open) setConfirm(null);
         }}
         title="Confirm deletion"
-        description={`Are you sure you want to delete "${confirm?.title ?? ""}"?`}
+        description={`Are you sure you want to delete "${confirm?.name ?? ""}"?`}
         onConfirm={async () => {
           if (confirm) await onDelete(confirm.id);
         }}

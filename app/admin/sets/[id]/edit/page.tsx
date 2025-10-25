@@ -19,7 +19,7 @@ export default function AdminSetsEditPage() {
   const remove = useMutation(api.admin.sets.remove);
 
   useHeader({
-    title: set ? `Edit Set "${set.title}"` : undefined,
+    title: set ? `Edit Set "${set.name}"` : undefined,
   });
 
   if (set === undefined) {
@@ -36,7 +36,7 @@ export default function AdminSetsEditPage() {
 
   async function onSubmit(data: Set) {
     const result = await update({ id, ...data });
-    toast.success("Set updated", { description: `"${data.title}" was updated.` });
+    toast.success("Set updated", { description: `"${data.name}" was updated.` });
     router.push("/admin/sets");
     return;
   }

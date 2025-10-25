@@ -13,12 +13,12 @@ import { validateSetFrontend } from "./validation";
 import { fromFormValues, toFieldErrors } from "@/lib/rhf";
 
 export type SetFormValues = {
-  title: string;
+  name: string;
   number1: string;
   number2: string;
 };
 export const setFormDefaults: SetFormValues = {
-  title: "",
+  name: "",
   number1: "",
   number2: "",
 };
@@ -56,12 +56,12 @@ export function SetForm({
       <form className="flex h-full flex-col gap-4" onSubmit={handleSubmit}>
         <FormField
           control={form.control}
-          name="title"
+          name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Title" {...field} />
+                <Input placeholder="Name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -129,7 +129,7 @@ export function SetForm({
           open={confirmOpen}
           onOpenChange={setConfirmOpen}
           title="Confirm deletion"
-          description={`Are you sure you want to delete "${set?.title ?? ""}"?`}
+          description={`Are you sure you want to delete "${set?.name ?? ""}"?`}
           onConfirm={async () => {
             await onDeleteAction();
           }}

@@ -5,7 +5,7 @@ import { type Set } from "../../lib/validation/sets";
 import { toDatabase } from "../schema";
 
 const SetsInputV = {
-  title: v.string(),
+  name: v.string(),
   number1: v.union(v.number(), v.null()),
   number2: v.union(v.number(), v.null()),
 };
@@ -13,7 +13,7 @@ const SetsInputV = {
 const SetsOutputV = v.object({
   _id: v.id("sets"),
   _creationTime: v.number(),
-  title: v.string(),
+  name: v.string(),
   number1: v.optional(v.number()),
   number2: v.optional(v.number()),
 });
@@ -76,8 +76,8 @@ export const remove = mutation({
 function validateSetBackend(set: Set): ValidationResult<Set> {
   const errors: Record<string, string> = {};
 
-  if (set.title.trim().length === 0) {
-    errors.title = "Title is required";
+  if (set.name.trim().length === 0) {
+    errors.name = "Name is required";
   }
 
   if (!isValidBlankableNumber(set.number1)) {

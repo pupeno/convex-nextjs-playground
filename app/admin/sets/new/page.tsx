@@ -15,7 +15,7 @@ export default function AdminSetsNewPage() {
 
   async function onSubmit(set: Set) {
     const result = await create(set);
-    toast.success("New set created", { description: `"${set.title}" was created successfully.` });
+    toast.success("New set created", { description: `"${set.name}" was created successfully.` });
     router.push("/admin/sets");
     return;
   }
