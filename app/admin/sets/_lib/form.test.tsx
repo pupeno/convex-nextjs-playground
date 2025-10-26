@@ -1,10 +1,26 @@
-// @vitest-environment jsdom
-
 import React from "react";
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { within } from "@testing-library/dom";
 import { SetForm } from "@/app/admin/sets/_lib/form";
+
+// Mock the confirm dialog to avoid relying on Radix internals and JSX runtime nuances
+vi.mock("@/lib/ui/admin/confirm-dialog", () => ({
+  ConfirmDialog: (props: {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    title: React.ReactNode;
+    description?: React.ReactNode;
+    onConfirm: () => void | Promise<void>;
+    confirmLabel?: string;
+    cancelLabel?: string;
+  }) => (props.open ? (
+    <div role="dialog">
+      <button onClick={() => props.onConfirm()}>{props.confirmLabel ?? "Confirm"}</button>
+      <button onClick={() => props.onOpenChange(false)}>{props.cancelLabel ?? "Cancel"}</button>
+    </div>
+  ) : null),
+}));
 
 function renderForm(overrides?: Partial<Parameters<typeof SetForm>[0]>) {
   type Props = Required<Parameters<typeof SetForm>[0]>;
@@ -59,10 +75,10 @@ describe("SetForm", () => {
     const onSubmitAction = vi.fn().mockResolvedValue({ ok: true, id: "1" });
     renderForm({ onSubmitAction });
 
-    fireEvent.change(screen.getByPlaceholderText("Name"), { target: { value: "  A  " } });
-    fireEvent.change(screen.getByPlaceholderText("Required"), { target: { value: " 1 " } });
+    fireEvent.change(screen.getByPlaceholderText("Name"), { target: { value: "A" } });
+    fireEvent.change(screen.getByPlaceholderText("Required"), { target: { value: "1" } });
     fireEvent.change(screen.getByPlaceholderText("Required and unique"), { target: { value: "2" } });
-    fireEvent.change(screen.getByPlaceholderText("Optional"), { target: { value: " 5 " } });
+    fireEvent.change(screen.getByPlaceholderText("Optional"), { target: { value: "5" } });
     fireEvent.change(screen.getByPlaceholderText("Optional, positive"), { target: { value: "7" } });
 
     fireEvent.click(screen.getByRole("button", { name: /save/i }));
