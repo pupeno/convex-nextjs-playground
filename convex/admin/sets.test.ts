@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { convexTest } from "convex-test";
 import schema from "../schema";
 import { api } from "../_generated/api";
+import type { Id } from "../_generated/dataModel";
 
 describe("convex admin/sets", () => {
   it("list returns all docs", async () => {
@@ -14,7 +15,7 @@ describe("convex admin/sets", () => {
         uniqueNumber: 10,
         optionalNumber: undefined,
         optionalPositiveNumber: undefined,
-      } as any);
+      });
       expect(id).toBeTruthy();
     });
     const results = await t.query(api.admin.sets.list, {});
@@ -43,7 +44,7 @@ describe("convex admin/sets", () => {
         uniqueNumber: 10,
         optionalNumber: undefined,
         optionalPositiveNumber: undefined,
-      } as any);
+      });
     });
     const res = await t.mutation(api.admin.sets.create, {
       name: "B",
@@ -58,7 +59,7 @@ describe("convex admin/sets", () => {
 
   it("get returns a specific doc or null", async () => {
     const t = convexTest(schema);
-    let insertedId: any;
+    let insertedId!: Id<"sets">;
     await t.run(async (ctx) => {
       insertedId = await ctx.db.insert("sets", {
         name: "A",
@@ -66,17 +67,17 @@ describe("convex admin/sets", () => {
         uniqueNumber: 10,
         optionalNumber: undefined,
         optionalPositiveNumber: undefined,
-      } as any);
+      });
     });
     const got = await t.query(api.admin.sets.get, { id: insertedId });
     expect(got?.name).toBe("A");
-    const missing = await t.query(api.admin.sets.get, { id: "9999;sets" } as any);
+    const missing = await t.query(api.admin.sets.get, { id: "9999;sets" as Id<"sets"> });
     expect(missing).toBeNull();
   });
 
   it("update validates, checks uniqueness excluding self, and patches", async () => {
     const t = convexTest(schema);
-    let insertedId: any;
+    let insertedId!: Id<"sets">;
     await t.run(async (ctx) => {
       insertedId = await ctx.db.insert("sets", {
         name: "A",
@@ -84,7 +85,7 @@ describe("convex admin/sets", () => {
         uniqueNumber: 10,
         optionalNumber: undefined,
         optionalPositiveNumber: undefined,
-      } as any);
+      });
     });
     const res = await t.mutation(api.admin.sets.update, {
       id: insertedId,
@@ -99,23 +100,22 @@ describe("convex admin/sets", () => {
 
   it("update rejects uniqueNumber collision with another doc", async () => {
     const t = convexTest(schema);
-    let aId: any;
-    let bId: any;
+    let bId!: Id<"sets">;
     await t.run(async (ctx) => {
-      aId = await ctx.db.insert("sets", {
+      await ctx.db.insert("sets", {
         name: "A",
         mandatoryNumber: 1,
         uniqueNumber: 10,
         optionalNumber: undefined,
         optionalPositiveNumber: undefined,
-      } as any);
+      });
       bId = await ctx.db.insert("sets", {
         name: "B",
         mandatoryNumber: 2,
         uniqueNumber: 20,
         optionalNumber: undefined,
         optionalPositiveNumber: undefined,
-      } as any);
+      });
     });
     const res = await t.mutation(api.admin.sets.update, {
       id: bId,
@@ -131,7 +131,7 @@ describe("convex admin/sets", () => {
 
   it("remove deletes doc", async () => {
     const t = convexTest(schema);
-    let insertedId: any;
+    let insertedId!: Id<"sets">;
     await t.run(async (ctx) => {
       insertedId = await ctx.db.insert("sets", {
         name: "A",
@@ -139,7 +139,7 @@ describe("convex admin/sets", () => {
         uniqueNumber: 10,
         optionalNumber: undefined,
         optionalPositiveNumber: undefined,
-      } as any);
+      });
     });
     await t.mutation(api.admin.sets.remove, { id: insertedId });
     const list = await t.query(api.admin.sets.list, {});
