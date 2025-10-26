@@ -3,22 +3,19 @@
 import React from "react";
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { within } from "@testing-library/dom";
 import { SetForm } from "@/app/admin/sets/_lib/form";
 
 function renderForm(overrides?: Partial<Parameters<typeof SetForm>[0]>) {
   type Props = Required<Parameters<typeof SetForm>[0]>;
-  const defaultSubmit: Props["onSubmitAction"] = vi
-    .fn<Parameters<Props["onSubmitAction"]>, ReturnType<Props["onSubmitAction"]>>()
-    .mockResolvedValue({ ok: true, id: "1" });
-  const onSubmitAction: Props["onSubmitAction"] = overrides?.onSubmitAction ?? defaultSubmit;
-  const onCancelAction: Props["onCancelAction"] = (overrides?.onCancelAction as Props["onCancelAction"]) ?? vi.fn();
+  const defaultSubmit = vi.fn().mockResolvedValue({ ok: true, id: "1" }) as Props["onSubmitAction"];
   const props: Props = {
-    onSubmitAction,
-    onCancelAction,
-    ...((overrides as Props) ?? {}),
+    ...(overrides as Props),
+    onSubmitAction: (overrides?.onSubmitAction as Props["onSubmitAction"]) ?? defaultSubmit,
+    onCancelAction: (overrides?.onCancelAction as Props["onCancelAction"]) ?? (vi.fn() as Props["onCancelAction"]),
   };
   const ui = render(<SetForm {...props} />);
-  return { ui, onSubmitAction, onCancelAction };
+  return { ui, onSubmitAction: props.onSubmitAction, onCancelAction: props.onCancelAction };
 }
 
 describe("SetForm", () => {
@@ -56,5 +53,40 @@ describe("SetForm", () => {
     const { onCancelAction } = renderForm();
     fireEvent.click(screen.getByRole("button", { name: /cancel/i }));
     expect(onCancelAction).toHaveBeenCalled();
+  });
+
+  it("submits converted payload values (numbers and nulls)", async () => {
+    const onSubmitAction = vi.fn().mockResolvedValue({ ok: true, id: "1" });
+    renderForm({ onSubmitAction });
+
+    fireEvent.change(screen.getByPlaceholderText("Name"), { target: { value: "  A  " } });
+    fireEvent.change(screen.getByPlaceholderText("Required"), { target: { value: " 1 " } });
+    fireEvent.change(screen.getByPlaceholderText("Required and unique"), { target: { value: "2" } });
+    fireEvent.change(screen.getByPlaceholderText("Optional"), { target: { value: " 5 " } });
+    fireEvent.change(screen.getByPlaceholderText("Optional, positive"), { target: { value: "7" } });
+
+    fireEvent.click(screen.getByRole("button", { name: /save/i }));
+    await waitFor(() => expect(onSubmitAction).toHaveBeenCalled());
+    const arg = onSubmitAction.mock.calls[0][0];
+    expect(arg).toEqual({
+      name: "A",
+      mandatoryNumber: 1,
+      uniqueNumber: 2,
+      optionalNumber: 5,
+      optionalPositiveNumber: 7,
+    });
+  });
+
+  it("opens delete dialog and confirms deletion", async () => {
+    const onDeleteAction = vi.fn().mockResolvedValue(undefined);
+    renderForm({ onDeleteAction, onCancelAction: vi.fn() });
+
+    // Open confirm dialog
+    fireEvent.click(screen.getByRole("button", { name: /^delete$/i }));
+    const dialog = await screen.findByRole("dialog");
+    const dialogUtils = within(dialog);
+    fireEvent.click(dialogUtils.getByRole("button", { name: /^delete$/i }));
+
+    await waitFor(() => expect(onDeleteAction).toHaveBeenCalled());
   });
 });
