@@ -3,20 +3,20 @@
 import React from "react";
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { SetForm, setFormDefaults, type SetApi } from "@/app/admin/sets/_lib/form";
+import { SetForm } from "@/app/admin/sets/_lib/form";
 
 function renderForm(overrides?: Partial<Parameters<typeof SetForm>[0]>) {
-  const defaultSubmit = vi.fn<
-    Parameters<Required<Parameters<typeof SetForm>[0]>["onSubmitAction"]>,
-    ReturnType<Required<Parameters<typeof SetForm>[0]>["onSubmitAction"]>
-  >().mockResolvedValue({ ok: true, id: "1" });
-  const onSubmitAction = (overrides?.onSubmitAction as any) ?? defaultSubmit;
-  const onCancelAction = (overrides?.onCancelAction as any) ?? vi.fn();
-  const props = {
+  type Props = Required<Parameters<typeof SetForm>[0]>;
+  const defaultSubmit: Props["onSubmitAction"] = vi
+    .fn<Parameters<Props["onSubmitAction"]>, ReturnType<Props["onSubmitAction"]>>()
+    .mockResolvedValue({ ok: true, id: "1" });
+  const onSubmitAction: Props["onSubmitAction"] = overrides?.onSubmitAction ?? defaultSubmit;
+  const onCancelAction: Props["onCancelAction"] = (overrides?.onCancelAction as Props["onCancelAction"]) ?? vi.fn();
+  const props: Props = {
     onSubmitAction,
     onCancelAction,
-    ...overrides,
-  } as Required<Parameters<typeof SetForm>[0]>;
+    ...((overrides as Props) ?? {}),
+  };
   const ui = render(<SetForm {...props} />);
   return { ui, onSubmitAction, onCancelAction };
 }

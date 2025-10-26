@@ -5,7 +5,7 @@ export default defineConfig({
   test: {
     environment: "node",
     globals: true,
-    deps: { inline: ["convex-test"], },
+    server: { deps: { inline: ["convex-test"] } },
     setupFiles: [path.resolve(__dirname, "vitest.setup.ts")],
     css: false,
     coverage: {
