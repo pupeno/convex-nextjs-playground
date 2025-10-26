@@ -13,9 +13,11 @@ export default defineConfig({
       reporter: ["text", "json", "html"],
       include: ["lib/**/*.{ts,tsx}", "convex/**/*.ts", "app/**/*.{ts,tsx}"],
       exclude: [
-        "**/*.test.ts",
+        "**/*.test.{ts,tsx}",
         "convex/_generated/**",
         "node_modules/**",
+        ".next/**",
+        "coverage/**",
       ],
     },
   },
