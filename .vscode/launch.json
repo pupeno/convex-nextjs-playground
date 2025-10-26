@@ -7,11 +7,22 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Run npm dev",
+            "name": "npm run dev",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
                 "run",
                 "dev"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "npm run test",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "test"
             ],
             "console": "integratedTerminal"
         }

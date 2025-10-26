@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import type { Resolver } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/lib/ui/admin/form";

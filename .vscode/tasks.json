@@ -10,6 +10,20 @@
 		},
 		{
 			"type": "npm",
+			"script": "test",
+			"problemMatcher": [],
+			"label": "npm test",
+			"detail": "Run all tests"
+		},
+		{
+			"type": "npm",
+			"script": "test:coverage",
+			"problemMatcher": [],
+			"label": "npm run test:coverage",
+			"detail": "Run all tests with coverage"
+		},
+		{
+			"type": "npm",
 			"script": "tsc",
 			"problemMatcher": [],
 			"label": "npm run tsc",
