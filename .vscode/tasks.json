@@ -28,6 +28,13 @@
 			"problemMatcher": [],
 			"label": "npm run tsc",
 			"detail": "Typecheck"
+		},
+		{
+			"type": "npm",
+			"script": "lint",
+			"problemMatcher": [],
+			"label": "npm run lint",
+			"detail": "Lint code"
 		}
 	]
 }

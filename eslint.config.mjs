@@ -12,7 +12,7 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   // Ignore generated and build artifacts
-  { ignores: ["**/.next/**", "**/coverage/**", "convex/_generated/**", "node_modules/**"] },
+  { ignores: ["**/.next/**", "**/coverage/**", "convex/_generated/**", "node_modules/**", "next-env.d.ts"] },
 
   // Base configs
   ...compat.extends("next/core-web-vitals", "next/typescript"),
