@@ -1,13 +1,22 @@
 import { defineConfig } from "vitest/config";
 import path from "path";
+import react from "@vitejs/plugin-react";
+import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
+  plugins: [tsconfigPaths(), react()],
   test: {
-    environment: "node",
+    // Default to jsdom for React/Next component tests
+    environment: "jsdom",
     globals: true,
-    server: { deps: { inline: ["convex-test"] } },
     setupFiles: [path.resolve(__dirname, "vitest.setup.ts")],
     css: false,
+    // Route Convex tests to Node; keep convex-test inlined
+    environmentMatchGlobs: [["convex/**", "node"]],
+    environmentOptions: {
+      jsdom: { url: "http://localhost" },
+    },
+    server: { deps: { inline: ["convex-test"] } },
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html"],
@@ -23,8 +32,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      // Keep .convex alias; TS path aliases are resolved via vite-tsconfig-paths
       ".convex": new URL("./.convex", import.meta.url).pathname,
-      "@": new URL("./", import.meta.url).pathname,
     },
   },
 });
